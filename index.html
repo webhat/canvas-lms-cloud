@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Canvas LMS Cloud - Canvas Hosting Made Simple</title>
+    <title>Canvas LMS Cloud by rockymadden</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -16,7 +16,7 @@
     <div class="wrapper">
       <header>
         <h1>Canvas LMS Cloud</h1>
-        <p>Automatically configure, deploy, and host the Canvas LMS on everything from a horizontally scaling, fault-tolerant, load balanced private cloud to a simple local virtual machine instance.</p>
+        <p>Automatically configure, deploy, and host the Canvas LMS on everything from a simple local virtual machine instance to a horizontally scaling, fault-tolerant, load balanced private cloud.</p>
 
         <p class="view"><a href="https://github.com/rockymadden/canvas-lms-cloud">View the Project on GitHub <small>rockymadden/canvas-lms-cloud</small></a></p>
 
@@ -53,25 +53,23 @@
 
 <hr><ul>
 <li>
-<strong>Available roles:</strong> proxy, application, cache, database</li>
-<li>
-<strong>Scalability:</strong> N/A</li>
+<strong>Available hosts:</strong> proxy, application, cache, database</li>
 <li>
 <strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/localhost">localhost</a>
 </li>
 </ul><p><img src="https://googledrive.com/host/0B3I6erHNlT16MXUwY3R2WHJpZEU/canvas-lms-cloud-localhost.png" alt="Diagram"></p>
 
 <h3>
-<a name="small-" class="anchor" href="#small-"><span class="octicon octicon-link"></span></a>Small <img src="http://img.shields.io/badge/status-wip-yellow.svg" alt="Development Status">
+<a name="small-" class="anchor" href="#small-"><span class="octicon octicon-link"></span></a>Small <img src="http://img.shields.io/badge/status-available-brightgreen.svg" alt="Development Status">
 </h3>
 
 <hr><ul>
 <li>
-<strong>Available roles:</strong> proxy, application, cache, database master, database slave</li>
+<strong>Available hosts:</strong> proxy, application, cache, database master, database slave</li>
 <li>
-<strong>Scalability:</strong> Supports multiple datacenter setups. Supports horizontal scaling of proxy, cache (via sharding), and application hosts. Supports a master database host with a hot standby. Supports file storage via Amazon S3.</li>
+<strong>Scalability:</strong> Supports multiple datacenter setups. Supports horizontal scaling of proxy, cache (via sharding), and application hosts. Supports a master database host with a warm standby. Supports file storage via Amazon S3.</li>
 <li>
-<strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/production_small">production_small</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/development_small">development_small</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/test_small">test_small</a>
+<strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/small_production">small_production</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/small_development">small_development</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/small_test">small_test</a>
 </li>
 </ul><p><img src="https://googledrive.com/host/0B3I6erHNlT16MXUwY3R2WHJpZEU/canvas-lms-cloud-small.png" alt="Diagram"></p>
 
@@ -81,11 +79,11 @@
 
 <hr><ul>
 <li>
-<strong>Available roles:</strong> proxy, application, cache, database coordinator, database master, database slave, storage</li>
+<strong>Available hosts:</strong> proxy, application, cache, database coordinator, database master, database slave, storage</li>
 <li>
 <strong>Scalability:</strong> Supports multiple datacenter setups. Supports horizontal scaling of proxy, cache (via sharding), and application hosts. Supports <a href="http://www.pgpool.net/">Pgpool II with streaming replication</a>. Supports horizontal file storage scaling via <a href="http://www.gluster.org/">GlusterFS</a>.</li>
 <li>
-<strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/production_medium">production_medium</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/development_medium">development_medium</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/test_medium">test_medium</a>
+<strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/medium_production">medium_production</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/medium_development">medium_development</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/medium_test">medium_test</a>
 </li>
 </ul><h3>
 <a name="large-" class="anchor" href="#large-"><span class="octicon octicon-link"></span></a>Large <img src="http://img.shields.io/badge/status-queued-lightgrey.svg" alt="Development Status">
@@ -93,27 +91,73 @@
 
 <hr><ul>
 <li>
-<strong>Available roles:</strong> proxy, application, cache, database coordinator, database datanode, database global transaction manager, storage</li>
+<strong>Available hosts:</strong> proxy, application, cache, database coordinator, database datanode, database global transaction manager, storage</li>
 <li>
 <strong>Scalability:</strong> Supports multiple datacenter setups. Supports horizontal scaling of proxy, cache (via sharding), and application hosts. Supports <a href="https://wiki.postgresql.org/wiki/Postgres-XC">Postgres-XC</a>. Supports horizontal file storage scaling via <a href="http://www.gluster.org/">GlusterFS</a>.</li>
 <li>
-<strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/production_large">production_large</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/development_large">development_large</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/test_large">test_large</a>
+<strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/large_production">large_production</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/large_development">large_development</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/large_test">large_test</a>
 </li>
 </ul><h2>
-<a name="server-targeting" class="anchor" href="#server-targeting"><span class="octicon octicon-link"></span></a>Server Targeting</h2>
+<a name="playbook-usage" class="anchor" href="#playbook-usage"><span class="octicon octicon-link"></span></a>Playbook Usage</h2>
 
-<p>Horizontal scaling concepts are used heavily (e.g. numerous servers per role, ability to dynamic add servers per role, load balancing per role, removing single points of failure per role, etc). With this in mind, we specifically target servers with roughly the following specifications:</p>
+<p>All examples use a small cloud size. Be sure to adjust your commands based upon your own implementation size.</p>
 
-<pre><code>CPU: Intel Xeon E3-1245v3
-DISK: Intel SSDs or 10k enterprise-level SATA HDDs in RAID 1/10
-RAM 32 GB ECC
-NIC: 1 Gbps (preferably dual)
-IPv4: 1 public
+<hr><p>Copy your public SSH key to a new server (the first playbook run against any host):</p>
+
+<pre><code>$ ansible-playbook -i small_production util_ssh_copy_id.yml --user=username --ask-pass --ask-sudo-pass
 </code></pre>
 
-<p>These types of servers can be custom built cost-effectively (i.e. $1,200) and leased in large quantities cost-effectively (e.g. $65/month at <a href="http://www.soyoustart.com/us/offers/sys-e32-4.xml">SoYouStart</a>).</p>
+<hr><p>Configure and deploy all production hosts:</p>
 
-<h2>
+<pre><code>$ ansible-playbook -i small_production small.yml
+</code></pre>
+
+<hr><p>Configure and deploy all test hosts:</p>
+
+<pre><code>$ ansible-playbook -i small_test small.yml
+</code></pre>
+
+<hr><p>Configure and deploy all development hosts:</p>
+
+<pre><code>$ ansible-playbook -i small_development small.yml
+</code></pre>
+
+<hr><p>Configure and deploy just production application hosts:</p>
+
+<pre><code>$ ansible-playbook -i small_production host_application.yml
+</code></pre>
+
+<hr><p>Configure and deploy just production application hosts while only running ruby based tasks:</p>
+
+<pre><code>$ ansible-playbook -i small_production host_application.yml --tags ruby
+</code></pre>
+
+<hr><p>Make Canvas unavailable to perform maintenance:</p>
+
+<pre><code>$ ansible-playbook -i small_production util_canvas_unavailable.yml
+</code></pre>
+
+<hr><p>Make Canvas available after performing maintenance:</p>
+
+<pre><code>$ ansible-playbook -i small_production util_canvas_available.yml
+</code></pre>
+
+<hr><p>Perform apt maintenance on all production hosts:</p>
+
+<pre><code>$ ansible-playbook -i small_production util_apt_upgrade.yml
+</code></pre>
+
+<hr><p>Perform apt maintenance on all production hosts without rebooting:</p>
+
+<pre><code>$ ansible-playbook -i small_production util_apt_upgrade.yml --skip-tags=reboot
+</code></pre>
+
+<hr><p>Perform apt maintenance on all production application hosts:</p>
+
+<pre><code>$ ansible-playbook -i small_production util_apt_upgrade.yml --limit=application
+</code></pre>
+
+<hr><h2>
 <a name="firewall-design" class="anchor" href="#firewall-design"><span class="octicon octicon-link"></span></a>Firewall Design</h2>
 
 <p>All publicly available ports/protocols have IP based rate-limiting to help mitigate abuse and attacks (e.g. if you ping more than once a second, your requests are dropped). For details, check out the <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/iptables/rules.v4.j2">iptables rules template</a>.</p>
@@ -137,97 +181,27 @@ IPv4: 1 public
 <li>TCP ports 80 and 443 are open on proxy hosts and <strong>are the only ports intended for public consumption.</strong>
 </li>
 </ul><h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a name="server-targeting" class="anchor" href="#server-targeting"><span class="octicon octicon-link"></span></a>Server Targeting</h2>
 
-<p>Configure and deploy all production hosts:</p>
+<p>Horizontal scaling concepts are used heavily (e.g. numerous servers per role, ability to dynamic add servers per role, load balancing per role, removing single points of failure per role, etc). With this in mind, we specifically target servers with roughly the following specifications:</p>
 
-<pre><code>$ ansible-playbook -i localhost site.yml
-$ ansible-playbook -i production_small site.yml
-$ ansible-playbook -i production_medium site.yml
-$ ansible-playbook -i production_large site.yml
+<pre><code>CPU: Intel Xeon E3-1245v3
+DISK: Intel SSDs or 10k enterprise-level SATA HDDs in RAID 1/10
+RAM 32 GB ECC
+NIC: 1 Gbps (preferably dual)
+IPv4: 1 public
 </code></pre>
 
-<hr><p>Configure and deploy all development hosts:</p>
+<p>These types of servers can be custom built cost-effectively (i.e. $1,200) and leased in large quantities cost-effectively (e.g. $65/month at <a href="http://www.soyoustart.com/us/offers/sys-e32-4.xml">SoYouStart</a>).</p>
 
-<pre><code>$ ansible-playbook -i localhost site.yml
-$ ansible-playbook -i development-small site.yml
-$ ansible-playbook -i development-medium site.yml
-$ ansible-playbook -i development-large site.yml
-</code></pre>
-
-<hr><p>Configure and deploy just production application hosts:</p>
-
-<pre><code>$ ansible-playbook -i localhost application.yml
-$ ansible-playbook -i production_small application.yml
-$ ansible-playbook -i production_medium application.yml
-$ ansible-playbook -i production_large application.yml
-</code></pre>
-
-<hr><p>Configure and deploy just production application hosts while only running ruby based tasks:</p>
-
-<pre><code>$ ansible-playbook -i localhost application.yml --tags ruby
-$ ansible-playbook -i production_small application.yml --tags ruby
-$ ansible-playbook -i production_medium application.yml --tags ruby
-$ ansible-playbook -i production_large application.yml --tags ruby
-</code></pre>
-
-<hr><p>Configure and deploy just production cache hosts:</p>
-
-<pre><code>$ ansible-playbook -i localhost cache.yml
-$ ansible-playbook -i production_small cache.yml
-$ ansible-playbook -i production_medium cache.yml
-$ ansible-playbook -i production_large cache.yml
-</code></pre>
-
-<hr><p>Configure and deploy just production database hosts:</p>
-
-<pre><code>$ ansible-playbook -i localhost database.yml
-$ ansible-playbook -i production_small database.yml
-$ ansible-playbook -i production_medium database.yml
-$ ansible-playbook -i production_large database.yml
-</code></pre>
-
-<hr><p>Configure and deploy just production proxy hosts:</p>
-
-<pre><code>$ ansible-playbook -i localhost proxy.yml
-$ ansible-playbook -i production_small proxy.yml
-$ ansible-playbook -i production_medium proxy.yml
-$ ansible-playbook -i production_large proxy.yml
-</code></pre>
-
-<hr><p>Perform apt maintenance on all production hosts:</p>
-
-<pre><code>$ ansible-playbook -i localhost apt_upgrade.yml
-$ ansible-playbook -i production_small apt_upgrade.yml
-$ ansible-playbook -i production_medium apt_upgrade.yml
-$ ansible-playbook -i production_large apt_upgrade.yml
-</code></pre>
-
-<hr><p>Perform apt maintenance on all production hosts without rebooting:</p>
-
-<pre><code>$ ansible-playbook -i localhost apt_upgrade.yml --skip-tags=reboot
-$ ansible-playbook -i production_small apt_upgrade.yml --skip-tags=reboot
-$ ansible-playbook -i production_medium apt_upgrade.yml --skip-tags=reboot
-$ ansible-playbook -i production_large apt_upgrade.yml --skip-tags=reboot
-</code></pre>
-
-<hr><p>Perform apt maintenance on all production application hosts:</p>
-
-<pre><code>$ ansible-playbook -i localhost apt_upgrade.yml --limit=application
-$ ansible-playbook -i production_small apt_upgrade.yml --limit=application
-$ ansible-playbook -i production_medium apt_upgrade.yml --limit=application
-$ ansible-playbook -i production_large apt_upgrade.yml --limit=application
-</code></pre>
-
-<hr><h2>
+<h2>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
 <p>Ansible installed locally and one or more Ubuntu 14.04 LTS hosts with:</p>
 
 <ul>
 <li>OpenSSH server installed</li>
-<li>Network interface and hostname configured</li>
-<li>SSH key transferred (there is a playbook for this)</li>
+<li>SSH key transferred</li>
 </ul><h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
@@ -256,29 +230,10 @@ THE SOFTWARE.
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/rockymadden">rockymadden</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    <script type="text/javascript">
-var _gap = _gap || [];
-_gap.push(["_setAccount", "UA-20432336-1"]);
-_gap.push(["_trackPageview"]);
-_gap.push(["_gapTrackBounceViaTime", 10]);
-_gap.push(["_gapTrackBounceViaScroll", 50]);
-_gap.push(["_gapTrackReads", 20, 30]);
-_gap.push(["_gapTrackLinkClicks"]);
-_gap.push(["_gapTrackMaxScroll", 25]);
-_gapDebug = true;
- 
-(function() {
-    var gap = document.createElement("script");
-    gap.async = true;
-    gap.type = "text/javascript";
-    gap.src = "http://rockymadden.com/js/gap.min.js";
- 
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(gap, s);
-})();
-</script>
+    
   </body>
 </html>

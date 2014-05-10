@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Canvas LMS Cloud - Canvas Hosting Mde Simple</title>
+    <title>Canvas LMS Cloud by rockymadden</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -39,11 +39,12 @@
 <li>Cassandra leveraged for improved system performance</li>
 <li>Handling for multiple physical datacenter setups</li>
 <li>Handling for multiple application hosts with round robin load balancing</li>
-<li>Handling for database clusters (e.g. Pgpool II and Postgres-XC)</li>
+<li>Handling for relational database clusters (e.g. Pgpool II and Postgres-XC)</li>
 <li>Handling for storage clusters (e.g. GlusterFS) or Amazon S3</li>
 <li>Handling for multiple reverse proxies, SSL terminators, static caches, load balancers</li>
 <li>Handling for dedicated application hosts to run automated jobs</li>
 <li>Security hardening at multiple levels</li>
+<li>Playbooks to handle for routine tasks and maintenance (e.g. copying SSH keys, performing LMS upgrades, performing host upgrades, toggling maintenance mode)</li>
 </ul><h2>
 <a name="cloud-sizes" class="anchor" href="#cloud-sizes"><span class="octicon octicon-link"></span></a>Cloud Sizes</h2>
 
@@ -53,7 +54,7 @@
 
 <hr><ul>
 <li>
-<strong>Available hosts:</strong> proxy, application, cache, database</li>
+<strong>Available hosts:</strong> proxy, application, cache, rdb</li>
 <li>
 <strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/localhost">localhost</a>
 </li>
@@ -65,9 +66,9 @@
 
 <hr><ul>
 <li>
-<strong>Available hosts:</strong> proxy, application, cache, database master, database slave</li>
+<strong>Available hosts:</strong> proxy, application, cache, rdb master, rdb slave</li>
 <li>
-<strong>Scalability:</strong> Supports multiple datacenter setups. Supports horizontal scaling of proxy, cache (via sharding), and application hosts. Supports a master database host with a warm standby. Supports file storage via Amazon S3.</li>
+<strong>Scalability:</strong> Supports multiple datacenter setups. Supports horizontal scaling of proxy, cache (via sharding), and application hosts. Supports a master rdb host with a warm standby. Supports file storage via Amazon S3.</li>
 <li>
 <strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/small_production">small_production</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/small_development">small_development</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/small_test">small_test</a>
 </li>
@@ -79,19 +80,21 @@
 
 <hr><ul>
 <li>
-<strong>Available hosts:</strong> proxy, application, cache, database coordinator, database master, database slave, storage</li>
+<strong>Available hosts:</strong> proxy, application, cache, rdb coordinator, rdb master, rdb slave, storage</li>
 <li>
 <strong>Scalability:</strong> Supports multiple datacenter setups. Supports horizontal scaling of proxy, cache (via sharding), and application hosts. Supports <a href="http://www.pgpool.net/">Pgpool II with streaming replication</a>. Supports horizontal file storage scaling via <a href="http://www.gluster.org/">GlusterFS</a>.</li>
 <li>
 <strong>Inventory files:</strong> <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/medium_production">medium_production</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/medium_development">medium_development</a>, <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/medium_test">medium_test</a>
 </li>
-</ul><h3>
+</ul><p><img src="https://googledrive.com/host/0B3I6erHNlT16MXUwY3R2WHJpZEU/canvas-lms-cloud-medium.png" alt="Diagram"></p>
+
+<h3>
 <a name="large-" class="anchor" href="#large-"><span class="octicon octicon-link"></span></a>Large <img src="http://img.shields.io/badge/status-queued-lightgrey.svg" alt="Development Status">
 </h3>
 
 <hr><ul>
 <li>
-<strong>Available hosts:</strong> proxy, application, cache, database coordinator, database datanode, database global transaction manager, storage</li>
+<strong>Available hosts:</strong> proxy, application, cache, rdb coordinator, rdb datanode, rdb global transaction manager, storage</li>
 <li>
 <strong>Scalability:</strong> Supports multiple datacenter setups. Supports horizontal scaling of proxy, cache (via sharding), and application hosts. Supports <a href="https://wiki.postgresql.org/wiki/Postgres-XC">Postgres-XC</a>. Supports horizontal file storage scaling via <a href="http://www.gluster.org/">GlusterFS</a>.</li>
 <li>
@@ -102,85 +105,81 @@
 
 <p>All examples use a small cloud size. Be sure to adjust your commands based upon your own implementation size.</p>
 
-<hr><p>Copy your public SSH key to a new server (the first playbook run against any host):</p>
+<hr><p>Copy your public SSH key to a new server (typically the first playbook run against any host):</p>
 
-<pre><code>$ ansible-playbook -i small_production util_ssh_copy_id.yml --user=username --ask-pass --ask-sudo-pass
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production util_ssh_copy_id.yml <span class="se">\</span>
+&gt; --user<span class="o">=</span>username --limit<span class="o">=</span>hostname <span class="se">\</span>
+&gt; --ask-pass --ask-sudo-pass
+</pre></div>
 
 <hr><p>Configure and deploy all production hosts:</p>
 
-<pre><code>$ ansible-playbook -i small_production small.yml
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production small.yml
+</pre></div>
 
 <hr><p>Configure and deploy all test hosts:</p>
 
-<pre><code>$ ansible-playbook -i small_test small.yml
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_test small.yml
+</pre></div>
 
 <hr><p>Configure and deploy all development hosts:</p>
 
-<pre><code>$ ansible-playbook -i small_development small.yml
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_development small.yml
+</pre></div>
 
 <hr><p>Configure and deploy just production application hosts:</p>
 
-<pre><code>$ ansible-playbook -i small_production host_application.yml
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production host_application.yml
+</pre></div>
 
 <hr><p>Configure and deploy just production application hosts while only running ruby based tasks:</p>
 
-<pre><code>$ ansible-playbook -i small_production host_application.yml --tags ruby
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production host_application.yml --tags<span class="o">=</span>ruby
+</pre></div>
 
 <hr><p>Make Canvas unavailable to perform maintenance:</p>
 
-<pre><code>$ ansible-playbook -i small_production util_canvas_unavailable.yml
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production util_canvas_unavailable.yml
+</pre></div>
 
 <hr><p>Make Canvas available after performing maintenance:</p>
 
-<pre><code>$ ansible-playbook -i small_production util_canvas_available.yml
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production util_canvas_available.yml
+</pre></div>
 
 <hr><p>Perform apt maintenance on all production hosts:</p>
 
-<pre><code>$ ansible-playbook -i small_production util_apt_upgrade.yml
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production util_apt_upgrade.yml
+</pre></div>
 
 <hr><p>Perform apt maintenance on all production hosts without rebooting:</p>
 
-<pre><code>$ ansible-playbook -i small_production util_apt_upgrade.yml --skip-tags=reboot
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production util_apt_upgrade.yml --skip-tags<span class="o">=</span>reboot
+</pre></div>
 
 <hr><p>Perform apt maintenance on all production application hosts:</p>
 
-<pre><code>$ ansible-playbook -i small_production util_apt_upgrade.yml --limit=application
-</code></pre>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ansible-playbook -i small_production util_apt_upgrade.yml --limit<span class="o">=</span>application
+</pre></div>
 
 <hr><h2>
 <a name="firewall-design" class="anchor" href="#firewall-design"><span class="octicon octicon-link"></span></a>Firewall Design</h2>
 
-<p>All publicly available ports/protocols have IP based rate-limiting to help mitigate abuse and attacks (e.g. if you ping more than once a second, your requests are dropped). For details, check out the <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/iptables/rules.v4.j2">iptables rules template</a>.</p>
+<p>All publicly available ports/protocols have IP based rate-limiting to help mitigate abuse and attacks (e.g. if you ping more than once per second, your requests would be dropped). For details, check out the <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/iptables/rules.v4.j2">iptables rules template</a>.</p>
 
-<h3>
-<a name="co-hosts" class="anchor" href="#co-hosts"><span class="octicon octicon-link"></span></a>Co-Hosts</h3>
+<hr><p><strong>Co-Hosts:</strong></p>
 
-<hr><ul>
-<li>All ports and protocols are open. Co-host IP addresses are automatically discovered via the Ansible inventory. This is enforced via <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/iptables/rules.v4.j2">iptables rules for all hosts</a>.</li>
-</ul><h3>
-<a name="administrators" class="anchor" href="#administrators"><span class="octicon octicon-link"></span></a>Administrators</h3>
+<p>All ports and protocols are open. Co-host IP addresses are automatically discovered via the Ansible inventory. This is enforced via <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/iptables/rules.v4.j2">iptables rules for all hosts</a>.</p>
 
-<hr><ul>
-<li>All ports and protocols are open. If your IP address is explicitly defined in <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/group_vars/all.example">group_vars</a>, you are considered an administrator. This is enforced via <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/iptables/rules.v4.j2">iptables rules for all hosts</a>.</li>
-</ul><h3>
-<a name="public" class="anchor" href="#public"><span class="octicon octicon-link"></span></a>Public</h3>
+<hr><p><strong>Administrators:</strong></p>
 
-<hr><ul>
-<li>ICMP echo requests are allowed to all hosts.</li>
-<li>TCP port 22 is open on all hosts. However, only SSH key authentication is allowed which is enforced via <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/ssh/sshd_config.j2">sshd_config</a>.</li>
-<li>TCP ports 80 and 443 are open on proxy hosts and <strong>are the only ports intended for public consumption.</strong>
-</li>
-</ul><h2>
+<p>All ports and protocols are open. If your IP address is explicitly defined in <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/group_vars/all.example">group_vars</a>, you are considered an administrator. This is enforced via <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/iptables/rules.v4.j2">iptables rules for all hosts</a>.</p>
+
+<hr><p><strong>Public:</strong></p>
+
+<p>ICMP echo requests are allowed to all hosts. TCP port 22 is open on all hosts. However, only SSH key authentication is allowed which is enforced via <a href="https://github.com/rockymadden/canvas-lms-cloud/blob/master/src/ansible/roles/common/templates/etc/ssh/sshd_config.j2">sshd_config</a>. TCP ports 80 and 443 are open on proxy hosts and are the only ports intended for public consumption.</p>
+
+<hr><h2>
 <a name="server-targeting" class="anchor" href="#server-targeting"><span class="octicon octicon-link"></span></a>Server Targeting</h2>
 
 <p>Horizontal scaling concepts are used heavily (e.g. numerous servers per role, ability to dynamic add servers per role, load balancing per role, removing single points of failure per role, etc). With this in mind, we specifically target servers with roughly the following specifications:</p>
@@ -228,28 +227,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </code></pre>
       </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/rockymadden">rockymadden</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    <script type="text/javascript">
-var _gap = _gap || [];
-_gap.push(["_setAccount", "UA-20432336-1"]);
-_gap.push(["_trackPageview"]);
-_gap.push(["_gapTrackBounceViaTime", 10]);
-_gap.push(["_gapTrackBounceViaScroll", 50]);
-_gap.push(["_gapTrackReads", 20, 30]);
-_gap.push(["_gapTrackLinkClicks"]);
-_gap.push(["_gapTrackMaxScroll", 25]);
-_gapDebug = true;
- 
-(function() {
-    var gap = document.createElement("script");
-    gap.async = true;
-    gap.type = "text/javascript";
-    gap.src = "http://rockymadden.com/js/gap.min.js";
- 
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(gap, s);
-})();
-</script>
+    
   </body>
 </html>
